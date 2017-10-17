@@ -4,19 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+
     tools:context=".MainActivity"
     android:background="@drawable/app_background"
     tools:ignore="ContentDescription">
 
 
     <TextView
-        android:id="@+id/cityText"
+        android:id="@+id/cityView"
         android:textColor="@android:color/black"
-        android:text="Auburn Hills,US"
+        android:text="City Name"
         android:layout_centerHorizontal="true"
         android:textSize = "24sp"
         android:textStyle="bold"
@@ -24,23 +21,12 @@
         android:layout_height="wrap_content"
         tools:ignore="HardcodedText" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_below = "@+id/cityText"
-        android:layout_width="128dp"
-        android:layout_height="180dp"
-        app:srcCompat="@drawable/cold_emoji"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/cityText"
-        app:layout_constraintTop_toTopOf="@+id/cityText"
-        android:contentDescription="" />
 
     <TextView
-        android:id="@+id/tempText"
-        android:text="Temp"
+        android:id="@+id/temperatureView"
+        android:text="Temperature"
         android:textStyle="normal|bold"
-        android:layout_below="@+id/cityText"
+        android:layout_below="@+id/cityView"
         android:layout_centerHorizontal = "true"
         android:layout_marginTop="30dp"
         android:textSize="24sp"
@@ -51,28 +37,12 @@
 
 
     <TextView
-        android:id="@+id/cloudText"
+        android:id="@+id/weatherView"
         android:textColor="@android:color/black"
-        android:text="Burr! Its cold out"
+        android:text="Weather Type"
         android:textSize="24sp"
-        android:layout_below = "@+id/imageView"
+        android:layout_below = "@+id/temperatureView"
         android:layout_width = "wrap_content"
         android:layout_height="wrap_content"
         tools:ignore="HardcodedText" />
-
-
-
-    <TextView
-        android:id="@+id/textView2"
-        android:text="Insert Traffic Data"
-        android:layout_below="@+id/cloudText"
-        android:layout_marginTop="15dp"
-        android:textColor="@android:color/black"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="HardcodedText"/>
-
-
-
 </RelativeLayout>

@@ -1,148 +1,94 @@
 package com.example.gabe.emojiweather;
 
-import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.renderscript.ScriptGroup;
-import android.support.annotation.MainThread;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.TextViewCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AlertDialogLayout;
-import android.support.v7.widget.AppCompatEditText;
-import android.text.InputType;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.TextView;
-
-import java.text.DecimalFormat;
-
-import com.example.gabe.emojiweather.CityPreference;
-import com.example.gabe.emojiweather.JSONWeatherParser;
-import com.example.gabe.emojiweather.WeatherHttpClient;
-import com.example.gabe.emojiweather.Weather;
-
-
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.os.AsyncTask;
-
+import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import 	org.json.*;
-import javax.net.ssl.HttpsURLConnection;
-
-import java.lang.Object.*;
-
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v7.app.*;
-import android.util.Log;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
-import android.widget.TextView;
-import java.util.Scanner;
-
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView cityName;
-    private TextView temp;
-    private TextView description;
+    private TextView cityText;
+    private TextView tempText;
+    private TextView weatherText;
+    String resultString = "";
 
-    Weather weather = new Weather();
-
+    //Loaded on startup
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-        temp = (TextView) findViewById(R.id.tempText);
-        description = (TextView) findViewById(R.id.cloudText);
-
-        CityPreference cityPreference = new CityPreference(MainActivity.this);
-        renderWeatherData(cityPreference.getCity());
+        cityText = (TextView) findViewById(R.id.cityView);
+        tempText = (TextView) findViewById(R.id.temperatureView);
+        weatherText = (TextView) findViewById(R.id.weatherView);
+        new NetworkConnect().execute();
     }
 
-    public void renderWeatherData(String city ){
-        WeatherTask weatherTask = new WeatherTask();
-        weatherTask.execute(new String[] {city +"&units=metric"});
-    }
-    private class WeatherTask extends AsyncTask<String, Void, Weather>{
-        @Override
-        protected Weather doInBackground(String... params) {
-            String data = ((new WeatherHttpClient()).getWeatherData(params[0]));
 
-            weather = JSONWeatherParser.getWeather(data);
-            Log.v("Data: ", weather.currentCondition.getDescription());
-            return weather;
-        }
+    class NetworkConnect extends AsyncTask<Void, Void, JSONObject> {
+        String citycode = "4058740";
+        String API_KEY = "5134d45a3a65322c8492a4028c7c9e3f";
+        private String JSON_URL = ("http://api.openweathermap.org/data/2.5/forecast?id=" + citycode+ "&APPID=" + API_KEY);
+        HttpURLConnection myTrial;
+        StringBuilder result;
+        URL urlObj;
+
 
         @Override
-        protected void onPostExecute(Weather weather) {
-            super.onPostExecute(weather);
+        protected JSONObject doInBackground(Void... args)
+        {
+            JSONObject jObj = null;
 
-            DecimalFormat decimalFormat = new DecimalFormat("#.#");
-            String tempFormat = decimalFormat.format(weather.currentCondition.getTemperature());
+            try
+            {
+                urlObj = new URL(JSON_URL);
+                myTrial = (HttpURLConnection) urlObj.openConnection();
+                myTrial.setDoOutput(false);
+                myTrial.setRequestMethod("GET");
+                myTrial.setConnectTimeout(15000);
+                myTrial.connect();
 
+                //Receive the response from the server
+                InputStream in = new BufferedInputStream(myTrial.getInputStream());
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(in));
+                result = new StringBuilder();
+                String bufferString;
+                while ((bufferString = buffer.readLine()) != null)
+                {
+                    result.append(bufferString);
+                }
+                jObj = new JSONObject(result.toString());
 
-            cityName.setText(weather.place.getCity()+","+weather.place.getCountry());
-            temp.setText(""+ tempFormat+"℃");
-            description.setText("Condition: " + weather.currentCondition.getCondition() +
-                    "("+ weather.currentCondition.getDescription() + ")");
-        }
-    }
-
-    private void showInputDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Change City");
-
-        final EditText cityInput = new EditText(MainActivity.this);
-        cityInput.setInputType(InputType.TYPE_CLASS_TEXT);
-        cityInput.setHint("Detroit, US");
-        builder.setPositiveButton("Submit",new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int which){
-                CityPreference cityPreference = new CityPreference(MainActivity.this);
-                cityPreference.setCity(cityInput.getText().toString());
-
-                String newCity = cityPreference.getCity();
-                renderWeatherData(newCity);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
             }
 
-        });
-        builder.show();
+            return jObj;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            //Use JSON result to display in TextView
+            if (json != null) {
+                {
+                    resultString = json.toString();
+                    JSONWeatherParser parserWeather = new JSONWeatherParser();
+                    String[] newStuff = parserWeather.getWeather(resultString);
+                    weatherText.setText(newStuff[0]);
+                    tempText.setText(newStuff[1]);
+
+                }
+            }
+        }
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-
-        //getMenuInflater().inflate(R.menu.menu_main,menu);
-        return true;
-
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
-
-        /*if (id == R.id.change_cityId){
-            showInputDialog();
-        }*/
-        return super.onOptionsItemSelected(item);
-    }
-
 }
