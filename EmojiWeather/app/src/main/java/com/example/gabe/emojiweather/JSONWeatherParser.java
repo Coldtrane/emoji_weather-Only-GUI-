@@ -14,45 +14,25 @@ public class JSONWeatherParser {
 
         try{
 
+            String[] output = new String[3];
 
-            //TODO change string split back to JSONArray
-            /*
-            JSONObject jsonObject = new JSONObject(data);
-            //Sets weather type from second element of weather array
-            JSONObject jObj= new JSONObject(data);
-            JSONArray arrJson = jsonData.getJSONArray("numbers");
-            if(myTemperature == null)
-            {
-                myTemperature = "empty";
-            }
-            if(myWeather == null)
-            {
-                myWeather = "empty";
-            }
-            valuesArray[0] = myTemperature;
-            valuesArray[1] = myWeather;
-            return valuesArray;
-            //String[] parts = data.split(",");
-            //String[] output = new String[2];
-            //output[0] = parts[6];
-            //return output;
-            */
-
-            //temporary parsing for Weather
-            String[] parts = data.split(",\"description");
-            parts = parts[1].split("\"");
-            String weatherCond = parts[parts.length-1];
-            String[] output = new String[2];
-
+            //Parsing for Weather description
+            String[] parts = data.split("weather\":\"");
+            parts = parts[1].split("\",");
+            String weatherCond = parts[0];
             output[0] = weatherCond;
 
-            //temporary parsing for Temperature
-            parts = data.split(",\"pressure");
-            parts = parts[1].split("\"");
-            String weatherTemp = parts[parts.length-1];
-            weatherTemp = weatherTemp.substring(1);
-
+            //Parsing for Temperature data in F
+            parts = data.split("temp_f\":");
+            parts = parts[1].split(",");
+            String weatherTemp = parts[0];
             output[1] = weatherTemp;
+
+            //Temporary parsing for City Name
+            parts = data.split("city\":\"");
+            parts = parts[1].split("\",");
+            String cityName = parts[0];
+            output[2] = cityName;
             return output;
 
         }

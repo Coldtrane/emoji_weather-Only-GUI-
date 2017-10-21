@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     class NetworkConnect extends AsyncTask<Void, Void, JSONObject> {
-        String citycode = "4058740";
-        String API_KEY = "5134d45a3a65322c8492a4028c7c9e3f";
-        private String JSON_URL = ("http://api.openweathermap.org/data/2.5/forecast?id=" + citycode+ "&APPID=" + API_KEY);
+        String zipcode = "48302";
+        String API_KEY = "48a6ddb9b2e805f6";
+        private String JSON_URL = ("https://api.wunderground.com/api/" + API_KEY + "/conditions/q/" + zipcode + ".json");
         HttpURLConnection myTrial;
         StringBuilder result;
         URL urlObj;
@@ -83,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
                 {
                     resultString = json.toString();
                     JSONWeatherParser parserWeather = new JSONWeatherParser();
-                    String[] newStuff = parserWeather.getWeather(resultString);
-                    weatherText.setText(newStuff[0]);
-                    tempText.setText(newStuff[1]);
-
+                    String[] parsedData = parserWeather.getWeather(resultString);
+                    weatherText.setText(parsedData[0]);
+                    tempText.setText(parsedData[1]);
+                    cityText.setText(parsedData[2]);
                 }
             }
         }
