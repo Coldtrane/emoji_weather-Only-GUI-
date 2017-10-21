@@ -84,8 +84,43 @@ public class MainActivity extends AppCompatActivity {
                     resultString = json.toString();
                     JSONWeatherParser parserWeather = new JSONWeatherParser();
                     String[] parsedData = parserWeather.getWeather(resultString);
-                    weatherText.setText(parsedData[0]);
-                    tempText.setText(parsedData[1]);
+                    double tempValue = Double.parseDouble(parsedData[1]);
+
+
+                    if(parsedData[0].contains("Cloudy"))
+                    {
+                        weatherText.setText(parsedData[0] + " ☁");
+                    }
+                    else if(parsedData[0].contains("Snow"))
+                    {
+                        weatherText.setText(parsedData[0] + " ❄");
+                    }
+                    else if(parsedData[0].contains("Rain"))
+                    {
+                        weatherText.setText(parsedData[0] + " ☔");
+                    }
+                    else
+                    {
+                        weatherText.setText(parsedData[0] + " ☀");
+                    }
+
+                    if(tempValue >= 80)
+                    {
+                        tempText.setText(tempValue + " \uD83D\uDE21");
+                    }
+                    else if(tempValue >= 65 && tempValue< 80)
+                    {
+                        tempText.setText(tempValue + " \uD83D\uDE03");
+                    }
+                    else if(tempValue > 32 && tempValue < 65)
+                    {
+                        tempText.setText(tempValue + " \uD83D\uDE2C");
+                    }
+                    else
+                    {
+                        tempText.setText(tempValue + " \uD83D\uDE30");
+                    }
+
                     cityText.setText(parsedData[2]);
                 }
             }
