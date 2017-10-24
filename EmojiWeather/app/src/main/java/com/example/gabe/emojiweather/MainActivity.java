@@ -87,15 +87,15 @@ public class MainActivity extends AppCompatActivity {
                     double tempValue = Double.parseDouble(parsedData[1]);
 
 
-                    if(parsedData[0].contains("Cloudy"))
+                    if(parsedData[0].contains("Cloudy") || parsedData[0].contains("Overcast") || parsedData[0].contains("Fog") || parsedData[0].contains("Hazy"))
                     {
                         weatherText.setText(parsedData[0] + " ☁");
                     }
-                    else if(parsedData[0].contains("Snow"))
+                    else if(parsedData[0].contains("Snow") || parsedData[0].contains("Sleet") || parsedData[0].contains("Flurries"))
                     {
                         weatherText.setText(parsedData[0] + " ❄");
                     }
-                    else if(parsedData[0].contains("Rain"))
+                    else if(parsedData[0].contains("Rain") || parsedData[0].contains("Storms"))
                     {
                         weatherText.setText(parsedData[0] + " ☔");
                     }
