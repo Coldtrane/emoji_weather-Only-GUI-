@@ -34,14 +34,22 @@
         android:layout_height="wrap_content"
         tools:ignore="HardcodedText"/>
 
-
-
     <TextView
         android:id="@+id/weatherView"
         android:textColor="@android:color/black"
         android:text="Weather Type"
         android:textSize="24sp"
         android:layout_below = "@+id/temperatureView"
+        android:layout_width = "wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/trafficView"
+        android:textColor="@android:color/black"
+        android:text="Traffic Type"
+        android:textSize="24sp"
+        android:layout_below = "@+id/weatherView"
         android:layout_width = "wrap_content"
         android:layout_height="wrap_content"
         tools:ignore="HardcodedText" />
