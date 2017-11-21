@@ -12,45 +12,52 @@
 
     <TextView
         android:id="@+id/cityView"
-        android:textColor="@android:color/black"
-        android:text="City Name"
-        android:layout_centerHorizontal="true"
-        android:textSize = "24sp"
-        android:textStyle="bold"
-        android:layout_width = "wrap_content"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Null City Name"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
 
     <TextView
         android:id="@+id/temperatureView"
-        android:text="Temperature"
-        android:textStyle="normal|bold"
-        android:layout_below="@+id/cityView"
-        android:layout_centerHorizontal = "true"
-        android:layout_marginTop="30dp"
-        android:textSize="24sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:ignore="HardcodedText"/>
+        android:layout_below="@+id/cityView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Temperature"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/weatherView"
-        android:textColor="@android:color/black"
-        android:text="Weather Type"
-        android:textSize="24sp"
-        android:layout_below = "@+id/temperatureView"
-        android:layout_width = "wrap_content"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/temperatureView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:text="Null Weather Data"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
         tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/trafficView"
-        android:textColor="@android:color/black"
-        android:text="Traffic Type"
-        android:textSize="24sp"
-        android:layout_below = "@+id/weatherView"
-        android:layout_width = "wrap_content"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/weatherView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="Null Traffic Data"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
         tools:ignore="HardcodedText" />
+
 </RelativeLayout>
