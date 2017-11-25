@@ -20,7 +20,7 @@ public class JSONTrafficParser {
             for (int i = 1; i < parts.length; i++)
             {
                 String[] temp = parts[i].split("\",\"fullDesc\"");
-                output =  output + temp[0] +"\n\n";
+                output =  output + "\uD83D\uDEA6" + temp[0] +"\n\n";
             }
             if(output == "")
             {
