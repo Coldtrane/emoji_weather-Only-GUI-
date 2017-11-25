@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import org.json.JSONObject;
 import android.app.AlertDialog;
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tempText;
     private TextView weatherText;
     private TextView trafficText;
+    private Button button;
     String resultString = "";
     String zipcode = "";
 
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Calls the zipcode popup
         enterZipPrompt();
+        refreshButton();
 
     }
 
@@ -65,22 +69,41 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(input.getText().toString().length() == 5)
+                String stringZip = input.getText().toString();
+                int intZip = Integer.parseInt(stringZip);
+
+                if(stringZip.length() == 5 && (intZip >= 48001 && intZip <= 49971))
                 {
                     zipcode = input.getText().toString();
                     new WeatherConnect().execute();
                     new TrafficConnect().execute();
                 }
+                else if(stringZip.length() < 5)
+                {
+                    Toast.makeText(getApplicationContext(), "Entry was too short. Please try again.", Toast.LENGTH_SHORT).show();
+                    enterZipPrompt();
+                }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "Invalid Entry. Please try again.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Entry was not a valid Michigan zipcode. Please try again.", Toast.LENGTH_SHORT).show();
                     enterZipPrompt();
                 }
 
             }
         });
         builder.show();
+    }
 
+    protected void refreshButton()
+    {
+        button = (Button) findViewById(R.id.button1);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                enterZipPrompt();
+            }
+        });
     }
 
 
